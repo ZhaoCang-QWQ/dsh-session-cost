@@ -1,0 +1,30 @@
+{
+  "name": "dsh-session-cost",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "在会话状态栏「N 轮 M 步」左侧显示本会话累计花费金额：按每次请求各自的时段价与所用模型精确计费（元）",
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  }
+}

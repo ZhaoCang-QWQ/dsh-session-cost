@@ -1,0 +1,10 @@
+# 依赖与本地产物
+node_modules/
+*.log
+npm-debug.log*
+
+# 编辑器 / 系统
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
