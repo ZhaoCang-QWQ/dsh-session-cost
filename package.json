@@ -1,9 +1,29 @@
 {
   "name": "dsh-session-cost",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
+  "main": "index.js",
   "description": "在会话状态栏「N 轮 M 步」左侧显示本会话累计花费金额：按每次请求各自的时段价与所用模型精确计费（元）",
   "license": "MIT",
+  "author": "ZhaoCang-QWQ",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZhaoCang-QWQ/dsh-session-cost.git"
+  },
+  "homepage": "https://github.com/ZhaoCang-QWQ/dsh-session-cost",
+  "bugs": {
+    "url": "https://github.com/ZhaoCang-QWQ/dsh-session-cost/issues"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "plugin",
+    "cost",
+    "billing",
+    "session",
+    "pricing",
+    "composer-dock"
+  ],
   "files": [
     "index.js",
     "client.js",
@@ -13,7 +33,9 @@
   ],
   "exports": {
     ".": "./index.js",
-    "./client": "./client.js"
+    "./client": "./client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
   },
   "dsh": {
     "bundle": {

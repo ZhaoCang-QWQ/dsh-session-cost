@@ -44,15 +44,33 @@ DSH 自己**不记钱**，只记提供方回报的 token。所以金额是算出
 
 ## 安装
 
-1. 把 `dsh-session-cost` 目录放到本机任意位置（例如 `D:\Plugins\dsh-session-cost`）。
-2. DSH → 左侧边栏 **「插件」** → **「添加插件」**。
-3. 在 **「包名或地址」** 里粘贴**这个目录的绝对路径**：
+> ⚠️ **不要填裸包名 `dsh-session-cost`。** npm 上已有一个**同名的第三方包**
+> （`github.com/ChengChe106/dsh-session-cost`，最新 `0.1.3`），填裸包名装到的是**它**，不是本仓库；
+> 两个包的 patch 行 id、价格表（flash 输出价 4.5/9 对官方的 4/9，偏高）和计费口径都不同，
+> 装错之后「有胶囊但数字不对」或「装完没有任何反应」都由此而来。
+> 本仓库唯一正确的安装源是 **仓库地址** 或 **本地目录**（两种都写在下面）。
+
+**A. 仓库地址（推荐，朋友之间直接发这一行）**
+
+1. DSH → 左侧边栏 **「插件」** → **「添加插件」**。
+2. **「包名或地址」** 填：
+
+   ```
+   github:ZhaoCang-QWQ/dsh-session-cost
+   ```
+
+3. **「安装」** → **「立即启用」** → **完全退出 DSH 再打开一次**。
+
+**B. 本地目录（离线 / 自己改动过）**
+
+1. 把 `dsh-session-cost` 目录放到本机任意位置（例如 `D:\Plugins\dsh-session-cost`）；**路径不要带空格**。
+2. **「添加插件」** → **「包名或地址」** 粘这个目录的绝对路径：
 
    ```
    D:\Plugins\dsh-session-cost
    ```
 
-4. **「安装」** → **「立即启用」** → **完全退出 DSH 再打开一次**。
+3. **「安装」** → **「立即启用」** → **完全退出 DSH 再打开一次**。
 
 > 第一次装完要重启一次：浏览器半边刷新页面就能加载，但宿主半边（负责算钱与那条约只读路由）是随 profile 组合加载的，需要重启进程。之后改价目表同理。
 
@@ -90,18 +108,22 @@ DSH 自己**不记钱**，只记提供方回报的 token。所以金额是算出
 
 ## 分发方式
 
-**GitHub（推荐）**：推到仓库后，对方在「添加插件」里填
+| 渠道 | 填什么 | 状态 |
+|---|---|---|
+| **GitHub（推荐）** | `github:ZhaoCang-QWQ/dsh-session-cost` | ✅ 已验证可装 |
+| **本地目录** | 目录绝对路径（不带空格） | ✅ 已验证可装 |
+| **tarball** | `npm pack` 产出的 `.tgz` 路径 | ✅ 已验证可装 |
+| **npm 包名** | `dsh-session-cost` | ⛔ 不可用，装到的是别人的包 |
 
-```
-github:ZhaoCang-QWQ/dsh-session-cost
-```
+**npm 为什么不能发**：`dsh-session-cost` 这个包名已被第三方 `ChengChe106` 占用
+（npm 上最新 `0.1.3`，2026 年发布）。直接 `npm publish` 会被拒（403），而用户填裸包名装到的是他那份。
+要用 npm 分发，先改名 —— 三处必须一起改：
 
-**本地目录**：把整个目录拷给对方，填目录绝对路径安装。
+1. `package.json` 的 `name`
+2. `client.js` 里 `window.__ModuleLoader__.load({ id })` 的 `id`（**必须等于新包名**，模块表以包名为 key）
+3. `cordis.patch.yml` 里那一行的 `name`
 
-**npm**：⚠️ 目前 npm 上已存在同名的第三方包 `dsh-session-cost`（github.com/ChengChe106/dsh-session-cost，
-功能几乎相同）。要发布到 npm 请先改包名 —— `package.json` 的 `name`、
-`client.js` 里 `__ModuleLoader__.load({ id })` 的 id、`cordis.patch.yml` 的 `name` 三处要一起改，
-改完本地已装的那份需要卸载重装。
+改完本地已装的那份要卸载重装（profile 里记的是旧名）。
 
 ### 让对方自己装（可直接粘贴给他）
 
@@ -116,11 +138,19 @@ github:ZhaoCang-QWQ/dsh-session-cost
 
 ## 兼容性
 
-针对 DSH `0.2.0-rc.2` 验证，依赖这些接口：
+在 DSH `0.2.0-rc.2` 上开发，在 `0.2.2-rc.1` 上实测通过（本地目录 / tarball / `github:` 三种装法均验证：
+配置组合出 `- id: dsh-session-cost` 行、`__DSH_BOOT__` 里有对应 row、`/plugins/??dsh-session-cost/client.js`
+返回 200、`/dsh-session-cost/cost.json` 返回 200）。依赖这些接口：
 
 - 插槽 `conversation.composer.dock`（`kind: 'list'`、`scope: 'session'`、按 `order` 升序渲染，标准 props 含 `sessionId`）
 - 宿主服务 `ctx.webServer.register({ kind: 'exact', path, handler })`
-- 会话对象 `ctx.on('session/created' | 'session/event' | 'session/disposed')` 与 `session.snapshotEvents()`
+- 会话对象 `ctx.on('session/created' | 'session/event' | 'session/disposed')`、`session.seq`、`session.snapshotEvents()`
 - locale 服务 `ctx.locale.register(ns, { zh, en })`
+- 客户端模块 `dsh.client`（`platform: 'web'`、`immediately`、`inject`）与 `exports['./client']`
+
+**已知接口债**：`session.snapshotEvents()` 在 `0.2.2` 的官方文档里已被标注
+`@deprecated`（"new calls are prohibited"），目前仍可用、本插件功能正常；
+官方替代接口（分段读取 / projection）落地后这里要迁移一次，否则某个版本会静默返回 `{"ok":false}`
+—— 那就表现为「胶囊消失」，不会显示错数字。
 
 DSH 若改动其中任一接口，插件需要跟着改。
