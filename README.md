@@ -47,20 +47,22 @@ DSH 自己**不记钱**，只记提供方回报的 token。所以金额是算出
 
 ## 安装
 
-三种源都验证过。**推荐 npm 包名**（最短，且不受仓库改名影响）：
+四种源都在 DSH `0.2.2-rc.1` 上实测过。**推荐 A（Release 直链）**：固定版本、不依赖 npm、不需要任何令牌，实测 4.8 秒装完。
 
-**A. npm 包名**
+**A. Release 直链（推荐）**
 
 1. DSH → 左侧边栏 **「插件」** → **「添加插件」**。
 2. **「包名或地址」** 填：
 
    ```
-   dsh-session-cost-exact
+   https://github.com/ZhaoCang-QWQ/dsh-session-cost/releases/download/v1.1.0/dsh-session-cost-exact-1.1.0.tgz
    ```
 
 3. **「安装」** → **「立即启用」** → **完全退出 DSH 再打开一次**。
 
-**B. GitHub 仓库**
+> 每个版本在 Releases 页都有一个同名 `.tgz`，换版本就换 URL 里的 `v1.1.0` 和文件名；要回滚也换回旧版本即可。
+
+**B. GitHub 仓库**（装的是默认分支最新代码，没有版本号保证，比 A 慢）
 
 ```
 github:ZhaoCang-QWQ/dsh-session-cost
@@ -76,6 +78,12 @@ github:ZhaoCang-QWQ/dsh-session-cost
    ```
 
 > 装完要重启一次：浏览器半边刷新页面就能加载，但宿主半边（负责算钱与那条约只读路由）是随 profile 组合加载的，需要重启进程。之后改价目表同理。
+
+**D. npm 包名**（发布后可用，届时这里会更新成实测状态）
+
+```
+dsh-session-cost-exact
+```
 
 **卸载**：同一个「插件」页面里点卸载。
 
@@ -128,12 +136,11 @@ github:ZhaoCang-QWQ/dsh-session-cost
 
 | 渠道 | 填什么 | 状态 |
 |---|---|---|
-| **npm** | `dsh-session-cost-exact` | ✅ 已发布 |
-| **GitHub** | `github:ZhaoCang-QWQ/dsh-session-cost` | ✅ 已验证可装 |
+| **Release 直链** | `https://github.com/ZhaoCang-QWQ/dsh-session-cost/releases/download/v1.1.0/dsh-session-cost-exact-1.1.0.tgz` | ✅ 已验证可装（4.8 s） |
+| **GitHub** | `github:ZhaoCang-QWQ/dsh-session-cost` | ✅ 已验证可装（8.4 s） |
 | **本地目录** | 目录绝对路径（不带空格） | ✅ 已验证可装 |
-| **tarball** | `npm pack` 产出的 `.tgz` 路径 | ✅ 已验证可装 |
-
-包名与仓库名分离，改包名只需同步三处，且**必须一致**（模块表以包名为 key）：
+| **本地 tarball** | 打好的 `.tgz` 文件路径 | ✅ 已验证可装 |
+| **npm** | `dsh-session-cost-exact` | ⏳ 未发布（本机访问 npmjs.com 被 Cloudflare 挑战拦截，待账号就绪） |
 
 1. `package.json` 的 `name`
 2. `client.js` 里 `window.__ModuleLoader__.load({ id })` 的 `id`
