@@ -13,13 +13,13 @@
  * back. `sessionId` is part of the standard props of this slot.
  */
 window.__ModuleLoader__.load({
-  id: 'dsh-session-cost',
+  id: 'dsh-session-cost-exact',
   factory(require) {
     const React = require('react');
     const h = React.createElement;
 
-    const NS = 'dsh-session-cost';
-    const ENDPOINT = '/dsh-session-cost/cost.json';
+    const NS = 'dsh-session-cost-exact';
+    const ENDPOINT = '/dsh-session-cost-exact/cost.json';
     const POLL_MS = 1000;
 
     // Declarations copied verbatim from the host's stats pill; only the class
@@ -114,7 +114,7 @@ window.__ModuleLoader__.load({
                 'tip.requests': 'Billed requests',
                 'tip.times': '',
               },
-            }), 'dsh-session-cost: dictionaries');
+            }), 'dsh-session-cost-exact: dictionaries');
           } catch (err) {
             // Copy falls back to the inline zh strings; the pill still renders.
           }

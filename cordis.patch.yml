@@ -1,5 +1,5 @@
 # dsh-session-cost —— DSH bundle patch
 # 把本会话花费挂件插入 Web / Desktop profile 的配置树。
 - insert:
-    - id: dsh-session-cost
-      name: dsh-session-cost
+    - id: dsh-session-cost-exact
+      name: dsh-session-cost-exact

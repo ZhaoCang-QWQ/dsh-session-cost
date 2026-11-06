@@ -1,9 +1,9 @@
 {
-  "name": "dsh-session-cost",
-  "version": "1.0.1",
+  "name": "dsh-session-cost-exact",
+  "version": "1.1.0",
   "type": "module",
   "main": "index.js",
-  "description": "在会话状态栏「N 轮 M 步」左侧显示本会话累计花费金额：按每次请求各自的时段价与所用模型精确计费（元）",
+  "description": "在会话状态栏「N 轮 M 步」左侧显示本会话累计花费金额：按每次请求各自的时段价与所用模型精确计费（元）。原 dsh-session-cost，因 npm 同名包被占而改名为 -exact",
   "license": "MIT",
   "author": "ZhaoCang-QWQ",
   "repository": {

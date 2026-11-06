@@ -25,13 +25,13 @@
 import { URLSearchParams } from 'node:url';
 
 /** Plugin display name. */
-export const name = 'dsh-session-cost';
+export const name = 'dsh-session-cost-exact';
 
 /** Money is accumulated in 1e-6 CNY, far below any display precision. */
 export const MICRO = 1e6;
 
 /** The one route the browser half calls. */
-export const ROUTE = '/dsh-session-cost/cost.json';
+export const ROUTE = '/dsh-session-cost-exact/cost.json';
 
 const JSON_HEADERS = {
   'Content-Type': 'application/json; charset=utf-8',
